@@ -1,5 +1,15 @@
 import * as amqp from 'amqplib';
 
+// https://www.youtube.com/watch?v=XrkNwwVLyOY&t=236s
+// https://habr.com/ru/post/447074/
+// https://www.rabbitmq.com/getstarted.html
+// https://stackify.com/message-queues-12-reasons/
+// https://refactoring.guru/ru/design-patterns/singleton
+// https://metanit.com/sharp/patterns/2.3.php
+// https://medium.com/better-programming/implementing-rabbitmq-with-node-js-93e15a44a9cc
+// https://medium.com/hepsiburadatech/migrating-rabbitmq-in-a-high-traffic-setup-39d73fcc8b04
+// https://medium.com/swlh/build-an-image-upload-application-with-react-nodejs-postgresql-and-s3-34fe13fbe572
+
 class MessageBroker {
   async messageConsume(photo: any): Promise<void> {
     amqp.connect('amqp://localhost', (connError: any, connection: any) => {

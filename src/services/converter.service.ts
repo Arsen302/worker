@@ -1,3 +1,6 @@
+import * as express from 'express';
+import * as sharp from 'sharp';
+
 class Converter {
   // https://sharp.pixelplumbing.com/api-output
   // https://www.npmjs.com/package/sharp нужен класс конвертер,
