@@ -1,7 +1,1 @@
-.idea/
-.vscode/
-node_modules/
-build/
-tmp/
-temp/
-uploads
+node_modules

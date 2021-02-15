@@ -1,5 +1,9 @@
 import * as amqp from 'amqplib';
 
+// add docker-compose file
+// https://docs.docker.com/compose/
+// https://docs.docker.com/get-started/overview/
+
 // https://www.youtube.com/watch?v=XrkNwwVLyOY&t=236s
 // https://habr.com/ru/post/447074/
 // https://www.rabbitmq.com/getstarted.html
