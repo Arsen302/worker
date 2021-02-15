@@ -1,0 +1,33 @@
+{
+   "name": "worker",
+   "version": "1.0.0",
+   "description": "Steps to run this project:",
+   "main": "index.js",
+   "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "start": "ts-node src/index.ts"
+   },
+   "repository": {
+      "type": "git",
+      "url": "git+https://github.com/Arsen302/worker.git"
+   },
+   "keywords": [],
+   "author": "",
+   "license": "ISC",
+   "bugs": {
+      "url": "https://github.com/Arsen302/worker/issues"
+   },
+   "homepage": "https://github.com/Arsen302/worker#readme",
+   "devDependencies": {
+      "@types/amqplib": "^0.5.17",
+      "@types/node": "^8.0.29",
+      "@types/sharp": "^0.27.1",
+      "ts-node": "3.3.0",
+      "typescript": "3.3.3333"
+   },
+   "dependencies": {
+      "typeorm": "0.2.31",
+      "reflect-metadata": "^0.1.10",
+      "mysql": "^2.14.1"
+   }
+}
