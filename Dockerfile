@@ -1,3 +1,7 @@
+# Docker:
+# https://docs.docker.com/compose/
+# https://docs.docker.com/get-started/overview/
+
 FROM node:14
 
 WORKDIR /usr/src/index

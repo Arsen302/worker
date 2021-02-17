@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import { createConnection } from 'typeorm';
 import * as express from 'express';
 import * as dotenv from 'dotenv';
+import messageBroker from './services/consumer.service';
 
 const app = express();
 dotenv.config();
@@ -13,6 +14,7 @@ app.use(express.urlencoded({ extended: false }));
 const startConn = async (): Promise<void> => {
   try {
     await createConnection();
+    await messageBroker.messageConsume();
     console.log('DB started working!');
   } catch (err) {
     console.log('We have Error', err);
