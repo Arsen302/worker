@@ -1,4 +1,5 @@
 import * as amqp from 'amqplib/callback_api';
+import * as converter from './converter.service';
 
 // RabbitMQ:
 // https://www.cloudamqp.com/blog/2015-05-18-part1-rabbitmq-for-beginners-what-is-rabbitmq.html
@@ -11,13 +12,13 @@ import * as amqp from 'amqplib/callback_api';
 
 class MessageBroker {
   async messageConsume(): Promise<void> {
-    amqp.connect('amqp://localhost:5672', (connError: any, connection: any) => {
+    amqp.connect('amqp://localhost:5672', (connError: any, conn: any) => {
       if (connError) {
         console.error(connError);
       }
       console.log('[x] Connection created...');
 
-      connection.createChannel((chanError: any, channel: any) => {
+      conn.createChannel((chanError: any, ch: any) => {
         if (chanError) {
           console.error(chanError);
         }
@@ -25,21 +26,20 @@ class MessageBroker {
 
         const queue = 'data_queue';
 
-        channel.assertQueue(queue, {
+        ch.assertQueue(queue, {
           durable: false,
         });
 
-        channel.prefetch(1);
+        ch.prefetch(false);
 
-        const photo = null;
-
-        channel.consume(
+        ch.consume(
           queue,
           (data: any) => {
             console.log('[x] Received', data.content.toString());
+            // converter.convertJpgToPng(data)
             setTimeout(() => {
               console.log('[x] Done');
-              channel.ack(data);
+              ch.ack(data);
             }, 1000);
           },
           {

@@ -1,5 +1,7 @@
 import * as express from 'express';
 import * as sharp from 'sharp';
+import { v4 as uuid } from 'uuid';
+import Photo from 'src/models/photo.model';
 
 class Converter {
   // https://sharp.pixelplumbing.com/api-output
@@ -19,19 +21,49 @@ class Converter {
   //   return req.file
   // }
 
-  async convertJpgToPng(req: express.Request, res: express.Response) {
-    const data = sharp().png();
+  // const image || photo = data{} || 'pathToData';
+
+  async convertJpgToPng(req: express.Request, res: express.Response, file) {
+    try {
+      const image = await sharp(file)
+        .toFormat('png')
+        .png({ quality: 100 })
+        .toFile(`${uuid}.png`);
+      // .toFile(src/convertedPhotos/`${uuid}.png`);
+      // сделать так чтобы он сохранял файл в папку
+      console.log('Success converting');
+
+      const photo = await new Photo();
+      photo.converted_file_path = image;
+
+      await photo.save();
+      console.log('Success converting');
+
+      return image;
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   async convertPngToJpg(req: express.Request, res: express.Response) {
     const data = sharp().jpeg();
   }
 
-  async convertSvgToPng(req: express.Request, res: express.Response) {
+  async convertWebPToPng(req: express.Request, res: express.Response) {
     const data = sharp().png();
+  }
+
+  async convertPngToWebP(req: express.Request, res: express.Response) {
+    const data = sharp().webp();
+  }
+
+  async convertSvgToPng(req: express.Request, res: express.Response) {
+    // const data = sharp(photo).png().toFile(`${uuid}.png`);
   }
 
   async convertPngToSvg(req: express.Request, res: express.Response) {
     const data = sharp().toBuffer(); // как в svg поменять???
   }
 }
+
+export default new Converter();
