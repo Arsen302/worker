@@ -2,7 +2,7 @@ import * as express from 'express';
 import * as path from 'path';
 import * as sharp from 'sharp';
 import { v4 as uuid } from 'uuid';
-import Photo from '../models/photo.model';
+// import Photo from '../models/photo.model';
 
 // https://sharp.pixelplumbing.com/api-output
 // https://www.npmjs.com/package/sharp
@@ -18,26 +18,23 @@ import Photo from '../models/photo.model';
 // https://www.youtube.com/watch?v=Y6df2liHjlg
 // https://www.freecodecamp.org/news/sql-recipes/
 
-export const converter = async (file: string) => {
+export const converter = async (data: any, fPath: string) => {
+  // какой я должен использовать тип для объекта, просто объект?
   try {
-    const image = await path.resolve(
-      __dirname,
-      '\\projects\\converter\\src\\uploads',
-      file
-    );
-    await sharp(image)
+    const image = await sharp(fPath)
       .toFormat('png')
       .png({ quality: 100 })
-      .toFile(`${uuid}.png`);
+      .toFile('futurama.png');
     // .toFile(src/convertedPhotos/`${uuid}.png`);
     // сделать так чтобы он сохранял файл в папку
-    console.log('Success converting');
+    console.log('Success converting...');
 
-    const photo = await new Photo();
-    // photo.converted_file_path = image;
+    const convertedFilePath = await path.dirname(__filename);
 
-    await photo.save();
-    console.log('Success converting');
+    data.converted_file_path = convertedFilePath;
+
+    await data.save();
+    console.log('Success saving in DB...');
 
     return image;
   } catch (err) {
@@ -55,11 +52,7 @@ class Converter {
 
   // const image || photo = data{} || 'pathToData';
 
-  async convertJpgToPng(
-    req: express.Request,
-    res: express.Response
-    //  file
-  ) {
+  async convertJpgToPng() {
     try {
       const image = await sharp()
         .toFormat('png')
@@ -69,10 +62,10 @@ class Converter {
       // сделать так чтобы он сохранял файл в папку
       console.log('Success converting');
 
-      const photo = await new Photo();
+      // const photo = await new Photo();
       // photo.converted_file_path = image;
 
-      await photo.save();
+      // await photo.save();
       console.log('Success converting');
 
       return image;

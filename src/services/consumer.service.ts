@@ -18,11 +18,7 @@ import { converter } from './converter.service';
 // https://metanit.com/sharp/patterns/2.3.php
 
 class MessageBroker {
-  async messageConsume(
-    req: express.Request,
-    res: express.Response,
-    next: any
-  ): Promise<void> {
+  async messageConsume(): Promise<void> {
     amqp.connect('amqp://localhost:5672', (connError: any, conn: any) => {
       if (connError) {
         console.error(connError);
@@ -45,13 +41,13 @@ class MessageBroker {
 
         ch.consume(
           queue,
-          (data: any) => {
-            console.log('[x] Received', data.content.toString());
-            converter(data.content.toString());
+          (image: any, filePath: string) => {
+            console.log('[x] Received', image.content.toString());
+            converter(image.content.toString(), filePath);
             // converter.convertJpgToPng(req, res, data);
             setTimeout(() => {
               console.log('[x] Done');
-              ch.ack(data);
+              ch.ack(image, filePath);
             }, 1000);
           },
           {
