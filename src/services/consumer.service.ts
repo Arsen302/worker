@@ -41,13 +41,13 @@ class MessageBroker {
 
         ch.consume(
           queue,
-          (image: any, filePath: string) => {
-            console.log('[x] Received', image.content.toString());
-            converter(image.content.toString(), filePath);
+          (image: any) => {
+            console.log('[x] Received', JSON.parse(image.content.toString()));
+            converter(image.content.toString());
             // converter.convertJpgToPng(req, res, data);
             setTimeout(() => {
               console.log('[x] Done');
-              ch.ack(image, filePath);
+              ch.ack(image);
             }, 1000);
           },
           {

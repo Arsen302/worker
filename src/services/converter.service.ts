@@ -2,38 +2,53 @@ import * as express from 'express';
 import * as path from 'path';
 import * as sharp from 'sharp';
 import { v4 as uuid } from 'uuid';
-// import Photo from '../models/photo.model';
-
-// https://sharp.pixelplumbing.com/api-output
-// https://www.npmjs.com/package/sharp
-// нужен класс конвертер, у которого будут методы
-// для работы с разными форматами, нужно как-то импортировать
-// string полученный от брокера в сервис,
-// и использовать модуль path чтобы зарезолвить файл
-
-// https://medium.com/better-programming/sharp-high-performance-node-js-image-processing-library-3f04df66c722
-// https://codingshiksha.com/javascript/node-js-express-image-resizer-and-converter-web-app-using-sharp-library-deployed-to-heroku-2020/
+import Photo from '../models/photo.model';
 
 // PostgreSQL:
 // https://www.youtube.com/watch?v=Y6df2liHjlg
 // https://www.freecodecamp.org/news/sql-recipes/
 
-export const converter = async (data: any, fPath: string) => {
-  // какой я должен использовать тип для объекта, просто объект?
+export const converter = async (img: any) => {
+  // [?]какой я должен использовать тип для объекта, просто объект?
+
+  const data = await JSON.parse(img);
+  const { name, convertedName, user } = data;
+  const filePath = data.filePath;
+
   try {
-    const image = await sharp(fPath)
+    const image = await sharp(filePath)
       .toFormat('png')
       .png({ quality: 100 })
-      .toFile('futurama.png');
-    // .toFile(src/convertedPhotos/`${uuid}.png`);
-    // сделать так чтобы он сохранял файл в папку
+      .toFile(`src\\convertedPhotos\\${convertedName}.png`);
     console.log('Success converting...');
+    // [?].toFile(`src\\convertedPhotos\\${uuid}.png`);
+    // сделать так чтобы он сохранял файл в папку
 
-    const convertedFilePath = await path.dirname(__filename);
+    const convertedFilePath = await path.resolve(
+      'src/convertedPhotos/',
+      `${convertedName}`
+    );
 
-    data.converted_file_path = convertedFilePath;
+    console.log('Saving data in DB...');
 
-    await data.save();
+    const photo = await new Photo();
+
+    photo.name = name;
+    photo.convertedName = convertedName;
+    photo.clientName = name;
+    photo.filePath = filePath;
+    photo.user = user;
+    photo.convertedFilePath = convertedFilePath;
+
+    await photo.save();
+
+    // [?]Подумать как можно сделать именно update exsist колонки
+    // await req.update(req.id, req.convertedFilePath);
+    // await req.updateById(req.id, req.convertedFilePath);
+    // const updateData = await req.findOne(req.user);
+    // await req.merge(updateData, req.convertedFilePath);
+    // const result = await req.save(updateData);
+
     console.log('Success saving in DB...');
 
     return image;

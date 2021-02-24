@@ -29,11 +29,11 @@ class Photo extends BaseEntity {
   // @Column({ name: 'user_id' })
   // userId!: number;
 
-  @Column()
-  file_path!: string;
+  @Column({ name: 'file_path' })
+  filePath!: string;
 
-  @Column()
-  converted_file_path!: string;
+  @Column({ name: 'converted_file_path' })
+  convertedFilePath!: string;
 
   @Column({ name: 'created_at' })
   createdAt!: Date;
