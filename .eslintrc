@@ -2,15 +2,17 @@
   "root": true,
   "parser": "@typescript-eslint/parser",
   "plugins": [
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "prettier",
+    "import"
   ],
   "extends": [
-    "airbnb-base",
-    "eslint:recommended",
+    "airbnb-typescript/base",    
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
+    "plugin:prettier/recommended",
     "prettier",
     "prettier/@typescript-eslint",
     "plugin:import/typescript"
@@ -19,6 +21,7 @@
     "no-unused-vars": "off",
     "no-console": "off",
     "linebreak-style": "off",
+    "class-methods-use-this": "off"
   },
   "settings": {
     "import/resolver": {

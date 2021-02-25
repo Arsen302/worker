@@ -4,10 +4,10 @@ import * as sharp from 'sharp';
 import { v4 as uuid } from 'uuid';
 import Photo from '../models/photo.model';
 
-export const converter = async (img: any) => {
+export const converter = async (msg: any) => {
   // [?]какой я должен использовать тип для объекта, просто объект?
 
-  const data = await JSON.parse(img);
+  const data = await JSON.parse(msg);
   const { name, convertedName, filePath, user } = data;
 
   try {
