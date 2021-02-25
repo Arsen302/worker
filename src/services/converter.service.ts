@@ -4,16 +4,11 @@ import * as sharp from 'sharp';
 import { v4 as uuid } from 'uuid';
 import Photo from '../models/photo.model';
 
-// PostgreSQL:
-// https://www.youtube.com/watch?v=Y6df2liHjlg
-// https://www.freecodecamp.org/news/sql-recipes/
-
 export const converter = async (img: any) => {
   // [?]какой я должен использовать тип для объекта, просто объект?
 
   const data = await JSON.parse(img);
-  const { name, convertedName, user } = data;
-  const filePath = data.filePath;
+  const { name, convertedName, filePath, user } = data;
 
   try {
     const image = await sharp(filePath)
@@ -57,30 +52,16 @@ export const converter = async (img: any) => {
   }
 };
 class Converter {
-  // if (req.file === '.jpg' || req.file === '.jpeg') {
-  // await sharp(photo).png({ quality: 100 });
-  // } else if (req.file === '.png') {
-  //   await sharp().jpeg({ quality: 100 });
-  // } else {
-  //   return req.file
-  // }
-
-  // const image || photo = data{} || 'pathToData';
-
   async convertJpgToPng() {
     try {
       const image = await sharp()
         .toFormat('png')
         .png({ quality: 100 })
         .toFile(`${uuid}.png`);
-      // .toFile(src/convertedPhotos/`${uuid}.png`);
+      // [?].toFile(src/convertedPhotos/`${uuid}.png`);
       // сделать так чтобы он сохранял файл в папку
       console.log('Success converting');
 
-      // const photo = await new Photo();
-      // photo.converted_file_path = image;
-
-      // await photo.save();
       console.log('Success converting');
 
       return image;

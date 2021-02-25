@@ -3,20 +3,6 @@ import * as express from 'express';
 // import converter from './converter.service';
 import { converter } from './converter.service';
 
-// RabbitMQ:
-// https://www.cloudamqp.com/blog/2015-05-18-part1-rabbitmq-for-beginners-what-is-rabbitmq.html
-// https://www.cloudamqp.com/blog/2015-05-19-part2-2-rabbitmq-for-beginners_example-and-sample-code-node-js.html
-// https://stackify.com/message-queues-12-reasons/
-
-// https://www.youtube.com/watch?v=ff8vn3sUSy4
-// https://www.youtube.com/watch?v=2-oBpRcMqF4
-// https://www.youtube.com/watch?v=mBDDd0VfqQU&t=1342s
-// https://www.youtube.com/watch?v=OWZ4PHJT6Pg&t=1598s
-
-// Singleton:
-// https://refactoring.guru/ru/design-patterns/singleton
-// https://metanit.com/sharp/patterns/2.3.php
-
 class MessageBroker {
   async messageConsume(): Promise<void> {
     amqp.connect('amqp://localhost:5672', (connError: any, conn: any) => {
