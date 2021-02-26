@@ -14,9 +14,11 @@ app.use(express.urlencoded({ extended: false }));
 const startConn = async (): Promise<void> => {
   try {
     await createConnection();
-    await messageListner.consume();
-    // const msg = await messageListner.consume();
     console.log('DB started working!');
+
+    await messageListner.consume();
+    // const rawMsg = await messageListner.consume();
+    // const msg = await rawMsg;
   } catch (err) {
     console.log('We have Error', err);
   }
