@@ -3,6 +3,7 @@ import { createConnection } from 'typeorm';
 import * as express from 'express';
 import * as dotenv from 'dotenv';
 import messageListner from './services/consumer.service';
+import { converter } from './services/converter.service';
 
 const app = express();
 dotenv.config();
@@ -16,9 +17,9 @@ const startConn = async (): Promise<void> => {
     await createConnection();
     console.log('DB started working!');
 
-    await messageListner.consume();
-    // const rawMsg = await messageListner.consume();
-    // const msg = await rawMsg;
+    const rawMsg = await messageListner.consume();
+    const msg = rawMsg;
+    // converter(msg);
   } catch (err) {
     console.log('We have Error', err);
   }

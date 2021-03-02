@@ -7,6 +7,8 @@ import Photo from '../models/photo.model';
 export const converter = async (data: any) => {
   // [?]какой я должен использовать тип для объекта, просто объект?
 
+  // const msg = await JSON.parse(data);
+  // const msg = await JSON.parse(data.content.toString);
   const { name, convertedName, filePath, user } = data;
 
   try {
@@ -23,7 +25,7 @@ export const converter = async (data: any) => {
       `${convertedName}`
     );
 
-    console.log('Saving data in DB...');
+    console.log('Saving photo in DB...');
 
     const photo = await new Photo();
 
