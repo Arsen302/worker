@@ -7,9 +7,7 @@ import Photo from '../models/photo.model';
 export const converter = async (data: any) => {
   // [?]какой я должен использовать тип для объекта, просто объект?
 
-  // const msg = await JSON.parse(data);
-  // const msg = await JSON.parse(data.content.toString);
-  const { name, convertedName, filePath, user } = data;
+  const { name, convertedName, filePath, user } = await data;
 
   try {
     const image = await sharp(filePath)
@@ -18,7 +16,7 @@ export const converter = async (data: any) => {
       .toFile(`src\\convertedPhotos\\${convertedName}.png`);
     console.log('Success converting...');
     // [?].toFile(`src\\convertedPhotos\\${uuid}.png`);
-    // сделать так чтобы он сохранял файл в папку
+    // сделать так чтобы он сохранял файл в паsпку
 
     const convertedFilePath = await path.resolve(
       'src/convertedPhotos/',

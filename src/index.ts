@@ -15,20 +15,20 @@ app.use(express.urlencoded({ extended: false }));
 const startConn = async (): Promise<void> => {
   try {
     await createConnection();
-    console.log('DB started working!');
+    console.log('DB started working...');
 
     const rawMsg = await messageListner.consume();
     const msg = rawMsg;
-    // converter(msg);
+    converter(msg);
   } catch (err) {
-    console.log('We have Error', err);
+    console.error('We have Error...', err);
   }
 };
 
 startConn()
   .then((): void => {
-    app.listen(PORT, () => console.log(`Server is listening on ${PORT}`));
+    app.listen(PORT, () => console.log(`Server is listening on ${PORT}...`));
   })
   .catch((err): void => {
-    console.log(err);
+    console.error(err);
   });

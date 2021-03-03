@@ -1,15 +1,16 @@
 import * as amqp from 'amqplib';
-// import converter from './converter.service';
+// import consume from '../utils/consume';
+import { promiseConsume } from '../utils/consume';
 import { converter } from './converter.service';
 
 class MessageListner {
   async consume(): Promise<void> {
     try {
       const conn = await amqp.connect(`${process.env.AMQP_URL}`);
-      console.log('[x] Connection created...');
+      console.log('Connection to rabbitmq created...');
 
       const ch = await conn.createChannel();
-      console.log('[x] Channel created...');
+      console.log('Channel created...');
 
       const queue = 'data_queue';
 
@@ -17,18 +18,14 @@ class MessageListner {
 
       await ch.prefetch(0);
 
-      ch.consume(
-        queue,
-        (msg: any) => {
-          converter(JSON.parse(msg.content.toString()));
-          console.log('[x] Received', JSON.parse(msg.content.toString()));
-          ch.ack(msg);
-          console.log('[x] Done');
-        },
-        {
-          noAck: false,
-        }
-      );
+      await promiseConsume(ch, queue)
+        // .then((res: any) => JSON.parse(res.content.toString()))
+        .then((res: any) => {
+          console.log(res);
+        })
+        .catch((err) => console.error(err));
+
+      // await consume(ch, queue);
     } catch (err) {
       console.error(err);
     }
