@@ -7,7 +7,8 @@ import Photo from '../models/photo.model';
 export const converter = async (data: any) => {
   // [?]какой я должен использовать тип для объекта, просто объект?
 
-  const { name, convertedName, filePath, user } = await data;
+  const msg = JSON.parse(data.content.toString());
+  const { name, convertedName, filePath, user } = msg;
 
   try {
     const image = await sharp(filePath)
@@ -35,13 +36,6 @@ export const converter = async (data: any) => {
     photo.convertedFilePath = convertedFilePath;
 
     await photo.save();
-
-    // [?]Подумать как можно сделать именно update exsist колонки
-    // await req.update(req.id, req.convertedFilePath);
-    // await req.updateById(req.id, req.convertedFilePath);
-    // const updateData = await req.findOne(req.user);
-    // await req.merge(updateData, req.convertedFilePath);
-    // const result = await req.save(updateData);
 
     console.log('Success saving in DB...');
 

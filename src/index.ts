@@ -17,9 +17,10 @@ const startConn = async (): Promise<void> => {
     await createConnection();
     console.log('DB started working...');
 
+    console.log(`Server is listening on ${PORT}...`);
     const rawMsg = await messageListner.consume();
     const msg = rawMsg;
-    converter(msg);
+    await converter(msg);
   } catch (err) {
     console.error('We have Error...', err);
   }
@@ -27,7 +28,7 @@ const startConn = async (): Promise<void> => {
 
 startConn()
   .then((): void => {
-    app.listen(PORT, () => console.log(`Server is listening on ${PORT}...`));
+    app.listen(PORT);
   })
   .catch((err): void => {
     console.error(err);

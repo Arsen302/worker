@@ -1,7 +1,5 @@
 import * as amqp from 'amqplib';
-// import consume from '../utils/consume';
-import { promiseConsume } from '../utils/consume';
-import { converter } from './converter.service';
+import consume from '../utils/consume';
 
 class MessageListner {
   async consume(): Promise<void> {
@@ -18,14 +16,9 @@ class MessageListner {
 
       await ch.prefetch(0);
 
-      await promiseConsume(ch, queue)
-        // .then((res: any) => JSON.parse(res.content.toString()))
-        .then((res: any) => {
-          console.log(res);
-        })
-        .catch((err) => console.error(err));
+      const result = await consume(ch, queue);
 
-      // await consume(ch, queue);
+      return result;
     } catch (err) {
       console.error(err);
     }
