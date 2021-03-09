@@ -12,7 +12,7 @@ class MessageListner {
 
       const queue = 'data_queue';
 
-      await ch.assertQueue(queue, { durable: false });
+      await ch.assertQueue(queue, { durable: true });
 
       await ch.prefetch(0);
 

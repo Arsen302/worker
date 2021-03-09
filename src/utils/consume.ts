@@ -44,10 +44,10 @@ export default consume;
 //     ch.consume(
 //       queue,
 //       (msg: any) => {
-//         msg;
 //         console.log('Received:', JSON.parse(msg.content.toString()));
 //         ch.ack(msg);
 //         console.log('Done!');
+//         return msg;
 //       },
 //       {
 //         noAck: false,
@@ -58,6 +58,24 @@ export default consume;
 //   }
 // };
 
+// const data = (msg: any) => {
+//   console.log('Received:', JSON.parse(msg.content.toString()));
+//   ch.ack(msg);
+//   console.log('Done!');
+//   return msg;
+// };
+
 // // 2. преобразовываем callback функию через promisify
 
-// export const promiseConsume = promisify(callbackConsume);
+// const promiseConsume = promisify(callbackConsume);
+
+// const consume = async (ch: amqp.Channel, queue: string) => {
+//   try {
+//     const data: any = await promiseConsume(ch, queue);
+//     return data;
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };
+
+// export default consume;
